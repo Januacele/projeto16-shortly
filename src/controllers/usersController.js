@@ -12,6 +12,7 @@ export async function register(req, res){
             VALUES ($1, $2, $3);
         `;
         const values = [user.name, user.email, hashPassword];
+        console.log(hashPassword.length);
         await db.query(query, values);
 
         res.sendStatus(201);
