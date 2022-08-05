@@ -17,7 +17,7 @@ export async function register(req, res){
         res.sendStatus(201);
 
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
 		res.status(500).send("Ocorreu um erro ao cadastrar usuário.");
     }
 }
