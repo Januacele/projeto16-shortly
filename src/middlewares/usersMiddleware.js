@@ -14,6 +14,19 @@ export async function checkSignUp(req, res, next){
             res.status(422).send("As senhas precisam ser idênticas");
             return; 
         }
+        const query = `
+            SELECT email FROM users
+            WHERE email = $1
+        `;
+        const values = [user.email];
+        
+        const checkExists = await connection.query(query, values);
+      
+        if (checkExists) {
+            res.status(409).send("Email já cadastrado");
+            return;
+        }
+        
     } catch (error) {
         res.status(500).send("Erro inesperado na validação dos dados.");
         return;
