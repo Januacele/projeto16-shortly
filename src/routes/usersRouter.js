@@ -1,12 +1,20 @@
 import {Router} from 'express';
-import { register } from '../controllers/usersController.js';
-import { checkSignUp } from '../middlewares/usersMiddleware.js';
+import { registerNewUser, login } from '../controllers/usersController.js';
+import { 
+        checkSignUpSchema,
+        checkConfirmPassword,
+        checkUniqueEmail,
+        checkSignInSchema, 
+        checkUserEmail,
+        checkUserPassword
+    } 
+        from '../middlewares/usersMiddleware.js';
 
 
 const usersRouter = Router();
 
 
-usersRouter.post("/signup", checkSignUp, register);
-
+usersRouter.post("/signup", checkSignUpSchema, checkConfirmPassword, checkUniqueEmail, registerNewUser);
+usersRouter.post("/signin", checkSignInSchema, checkUserEmail, checkUserPassword, login);
 
 export default usersRouter;
