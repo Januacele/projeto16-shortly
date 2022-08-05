@@ -44,7 +44,7 @@ export async function checkUniqueEmail(req, res, next){
         
         const checkExists = await db.query(query, values);
       
-        if (checkExists) {
+        if (checkExists.rowCount !== 0) {
             res.status(409).send("Email já cadastrado");
             return;
         }
