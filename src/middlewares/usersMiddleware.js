@@ -1,4 +1,4 @@
-
+import db from '../db.js';
 import signUpSchema from '../schemas/signUpSchema.js';
 
 export async function checkSignUp(req, res, next){
@@ -20,7 +20,7 @@ export async function checkSignUp(req, res, next){
         `;
         const values = [user.email];
         
-        const checkExists = await connection.query(query, values);
+        const checkExists = await db.query(query, values);
       
         if (checkExists) {
             res.status(409).send("Email já cadastrado");
