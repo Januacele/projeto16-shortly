@@ -27,8 +27,6 @@ export async function login(req, res){
     const user = req.body;
    
     try {
-        const user = req.body;
-        
         const queryUserId = `
             SELECT id FROM users
             WHERE email = $1
