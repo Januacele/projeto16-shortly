@@ -81,7 +81,7 @@ export async function checkUserEmail(req, res, next){
         const checkExistsEmail = await db.query(queryEmail, valuesEmail);
 
         if (checkExistsEmail.rowCount === 0) {
-            res.status(409).send("Usuário não encontrado ou senha incorreta");
+            res.status(401).send("Usuário não encontrado ou senha incorreta");
             return;
         }
     } catch (error) {
@@ -106,7 +106,7 @@ export async function checkUserPassword(req, res, next){
         const validation = bcrypt.compareSync(user.password, hashPassword);
       
         if (!validation) {
-            res.status(409).send("Usuário não encontrado ou senha incorreta");
+            res.status(401).send("Usuário não encontrado ou senha incorreta");
             return;
         }
     } catch (error) {
