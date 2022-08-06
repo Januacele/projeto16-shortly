@@ -38,7 +38,7 @@ export async function login(req, res){
         const token = uuid();
 
         const querySessions = `
-            INSERT INTO sessions ("idUser", token)
+            INSERT INTO sessions ("userId", token)
             VALUES ($1, $2)
         `;
         const valuesSessions = [userId, token];
