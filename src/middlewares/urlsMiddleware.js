@@ -25,7 +25,7 @@ export async function checkToken(req, res, next){
         }
 
     } catch (error) {
-        res.send(500).status("Erro inesperado na validação da sessão");
+        res.status(500).send("Erro inesperado na validação da sessão");
         return;
     }
     next()
@@ -39,7 +39,7 @@ export async function checkUrlSchema(req, res, next){
             res.status(422).send("Erro no envio na URL")
         } 
     } catch (error) {
-        res.send(500).status("Erro inesperado na validação da sessão");
+        res.status(500).send("Erro inesperado na validação da sessão");
         return;
     }
     next();

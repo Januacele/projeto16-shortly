@@ -32,7 +32,7 @@ export async function shortenUrl(req, res){
         res.status(201).send(response);
         
     } catch (error) {
-        res.send(500).status("Erro inesperado na validação da url");
+        res.status(500).send("Erro inesperado na validação da url");
         return;
     }
 
