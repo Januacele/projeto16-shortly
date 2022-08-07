@@ -42,4 +42,5 @@ export async function checkUrlSchema(req, res, next){
         res.send(500).status("Erro inesperado na validação da sessão");
         return;
     }
+    next();
 }
