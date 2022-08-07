@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 
 export async function shortenUrl(req, res){
     const { authorization } = req.headers;
-    const token = authorization.replace("Bearer","").trim();
+    const token = authorization?.replace("Bearer","").trim();
     const { url } = req.body;
 
     const shortUrl = nanoid();
