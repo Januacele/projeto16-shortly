@@ -19,7 +19,7 @@ export async function shortenUrl(req, res){
         const userId = userIdResult.rows[0].userId;
 
         const queryShotenUrl = `
-            INSERT INTO url (url, short, "userId")
+            INSERT INTO urls (url, short, "userId")
             VALUES ($1, $2, $3) 
         `;
         const valuesShortenUrl = [url, shortUrl, userId];
