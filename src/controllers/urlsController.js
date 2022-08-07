@@ -4,10 +4,10 @@ import { nanoid } from 'nanoid';
 
 export async function shortenUrl(req, res){
     const { authorization } = req.headers;
-    const token = authorization?.replace("Bearer","").trim();
+    const token = authorization.replace("Bearer","").trim();
     const { url } = req.body;
 
-    const shortenUrl = nanoid();
+    const shortUrl = nanoid();
 
     try {
         const queryUserId = `
@@ -22,11 +22,11 @@ export async function shortenUrl(req, res){
             INSERT INTO url (url, short, "userId")
             VALUES ($1, $2, $3) 
         `;
-        const valuesShortenUrl = [url, shortenUrl, userId];
+        const valuesShortenUrl = [url, shortUrl, userId];
         await db.query(queryShotenUrl,valuesShortenUrl);
 
         const response = {
-            shortenUrl:shortenUrl
+            shortUrl:shortUrl
         };
 
         res.status(201).send(response);
