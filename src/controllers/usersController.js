@@ -69,7 +69,7 @@ export async function getUserData(req, res){
         const values = [id];
         const result = await db.query(queryDataUsers,values);
         const userName = result.rows[0].name;
-        const visitCount = result.rowa[0].visitCount;
+        const visitCount = result.rows[0].visitCount;
 
         const queryUrls = `
             SELECT urls.id, urls.short AS "shortUrl", urls.url, urls."visitCount"
