@@ -60,7 +60,7 @@ export async function getUserData(req, res){
 
     try {
         const queryDataUsers = `
-            SELECT users.name, SUM(urls."visitCount") as "visitCount"
+            SELECT users.name, SUM(urls."visitCount") AS "visitCount"
             FROM users
             JOIN urls ON urls."userId"=users.id
             WHERE users.id= $1
@@ -84,7 +84,7 @@ export async function getUserData(req, res){
             id: id,
             name: userName,
             visitCount: visitCount,
-            shortenedUrls
+            shortenedUrls: shortenedUrls
         };
 
         res.status(200).send(response);
