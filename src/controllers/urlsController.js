@@ -63,3 +63,33 @@ export async function getShortUrl(req, res){
         return;
     }
 }
+
+export async function redirect(req, res){
+    const {shortUrl}= req.params;
+    try {
+        const queryUrl = `
+        SELECT urls.id, urls.url, urls."visitCount"
+        FROM urls
+        WHERE short= $1
+    `;
+    const valuesUrl = [shortUrl];
+    const shortUrl = await db.query(queryUrl, valuesUrl);
+    const idUrl = shortUrl.rows[0].id;
+    const originalUrl = shortUrl.rows[0].url;
+    const newNumberVisits = shortUrl.rows[0].visitCount + 1;
+
+    const queryVisits = `
+    UPDATE urls
+    SET "visitCount" = $1
+    WHERE id = $2
+`;
+    const valuesVisits = [newNumberVisits, idUrl];
+    await db.query(queryVisits, valuesVisits);
+
+    res.redirect(originalUrl);
+    
+    } catch (error) {
+        res.status(500).send("Erro inesperado ao redirecionar a url");
+        return;
+    }
+}
