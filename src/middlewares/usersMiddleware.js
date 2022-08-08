@@ -157,3 +157,27 @@ export async function checkUserUrl(req, res, next){
     }
     next();
 }
+
+export async function checkTokenIsFromUser(req, res, next){
+    const {id} = req.params;
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer","").trim();
+
+    try {
+        const queryId = `
+            SELECT * FROM sessions
+            WHERE "userId" = $1
+        `;
+        const valuesId = [id];
+        const result = await db.query(queryId, valuesId);
+        const TokenUser = result.rows[0].token;
+
+        if(token !== TokenUser){
+            res.status(404).send("Você n]ao tem acesso aos dados desse usuário")
+        }
+    } catch (error) {
+        res.status(500).send("Erro inesperado ao pegar os dados do usuário");
+        return;
+    }
+    next();
+}

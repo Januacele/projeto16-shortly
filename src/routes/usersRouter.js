@@ -7,6 +7,7 @@ import {
         checkSignInSchema, 
         checkUserEmail,
         checkUserPassword,
+        checkTokenIsFromUser,
         checkUserId,
         checkUserUrl
     } 
@@ -18,6 +19,6 @@ const usersRouter = Router();
 
 usersRouter.post("/signup", checkSignUpSchema, checkConfirmPassword, checkUniqueEmail, registerNewUser);
 usersRouter.post("/signin", checkSignInSchema, checkUserEmail, checkUserPassword, login);
-usersRouter.get("/users/:id", checkToken, checkUserId, checkUserUrl, getUserData)
+usersRouter.get("/users/:id", checkToken,checkTokenIsFromUser,checkUserId, checkUserUrl, getUserData)
 
 export default usersRouter;
