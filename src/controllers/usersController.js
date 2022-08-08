@@ -63,7 +63,7 @@ export async function getUserData(req, res){
             SELECT users.name, SUM(urls."visitCount") as "visitCount"
             FROM users
             JOIN urls ON urls."userId"=users.id
-            WHERE "userId"= $1
+            WHERE users.id= $1
             GROUP BY users.id
         `;
         const values = [id];
