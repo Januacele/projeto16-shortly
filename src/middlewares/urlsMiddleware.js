@@ -1,3 +1,4 @@
+import { query } from 'express';
 import { validate } from 'uuid';
 import db from '../db.js';
 import urlSchema from '../schemas/urlSchema.js';
@@ -82,6 +83,39 @@ export async function checkShortUrlExist(req, res, next){
         }
     } catch (error) {
         res.status(500).send("Erro inesperado na validação da url encurtada");
+        return;
+    }
+    next();
+}
+
+export async function checkUrlUser(req, res, next){
+    const {id} = req.params;
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer","").trim();
+
+    try {
+        const queryUser = `
+            SELECT sessions."userId" FROM sessions
+            WHERE token = $1
+        `;
+        const valuesUser = [token];
+        const queryCheckUser = await db.query(queryUser, valuesUser);
+        const checkUserResult = queryCheckUser.rows[0].userId;
+
+        const queryUrl = `
+            SELECT urls."userId" FROM urls
+            WHERE id = $1
+        `;
+        const valuesUrl = [id];
+        const queryCheckUrl = await db.query(queryUrl, valuesUrl);
+        const resultCheckUrl = queryCheckUrl.rows[0].userId;
+
+        if(checkUserResult !== resultCheckUrl){
+            res.status(401).send("A url não pertence a esse usuário");
+            return;
+        }
+    } catch (error) {
+        res.status(500).send("Erro inesperado na validação da url e usuario");
         return;
     }
     next();

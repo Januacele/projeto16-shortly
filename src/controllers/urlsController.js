@@ -93,3 +93,22 @@ export async function redirect(req, res){
         return;
     }
 }
+
+export async function deleteUrl(req, res){
+    const {id} = req.params;
+
+    try {
+        const queryDelete = `
+            DELETE FROM urls
+            WHERE id = $1
+        `;
+        const values = [id];
+        await db.query(queryDelete, values);
+
+        res.status(204).send("Url deletada com sucesso")
+    } catch (error) {
+        res.status(500).send("Erro inesperado ao deletar a url");
+        return;
+    }
+
+}
