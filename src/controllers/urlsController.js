@@ -37,3 +37,29 @@ export async function shortenUrl(req, res){
     }
 
 }
+
+export async function getShortUrl(req, res){
+    const {id} = req.params;
+    try {
+        const queryShortUrl = `
+            SELECT id, urls.short as "shortUrl", urls.url
+            FROM urls
+            WHERE id = $1
+        `;
+        const valueId = [id];
+        const shortUrl = await db.query(queryShortUrl, valueId);
+        const urlResult = shortUrl.rows[0];
+
+        const response = {
+            id: id,
+            shortUrl: urlResult.shortUrl,
+            url: urlResult.url
+        };
+
+        res.status(200).send(response);
+
+    } catch (error) {
+        res.status(500).send("Erro inesperado ao buscar url pelo id");
+        return;
+    }
+}

@@ -44,3 +44,24 @@ export async function checkUrlSchema(req, res, next){
     }
     next();
 }
+
+export async function shortUrlExist(req, res, next){
+    const {id} = req.params;
+    try {
+        const queryShortExist = `
+            SELECT short FROM urls
+            WHERE id= $1
+        `;
+        const valueId = [id];
+        const shortUrlExists = await db.query(queryShortExist, valueId)
+
+        if(shortUrlExists.rowCount === 0){
+            res.status(404).send("Url encurtada não existe");
+            return;
+        }
+    } catch (error) {
+        res.status(500).send("Erro inesperado na validação da url encurtada");
+        return;
+    }
+    next();
+}
