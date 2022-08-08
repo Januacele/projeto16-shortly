@@ -173,7 +173,7 @@ export async function checkTokenIsFromUser(req, res, next){
         const TokenUser = result.rows[0].token;
 
         if(token !== TokenUser){
-            res.status(404).send("Você n]ao tem acesso aos dados desse usuário")
+            res.status(404).send("Você não tem acesso aos dados desse usuário");
         }
     } catch (error) {
         res.status(500).send("Erro inesperado ao pegar os dados do usuário");
