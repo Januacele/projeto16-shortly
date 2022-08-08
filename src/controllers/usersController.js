@@ -53,3 +53,44 @@ export async function login(req, res){
 		res.status(500).send("Ocorreu um erro ao cadastrar usuário.");
     }
 }
+
+
+export async function getUserData(req, res){
+    const {id} = req.params;
+
+    try {
+        const queryDataUsers = `
+            SELECT users.name, SUM(urls."visitCount") as "visitCount"
+            FROM users
+            JOIN urls ON urls."userId"=users.id
+            WHERE "userId"= $1
+            GROUP BY users.id
+        `;
+        const values = [id];
+        const result = await db.query(queryDataUsers,values);
+        const userName = result.rows[0].name;
+        const visitCount = result.rowa[0].visitCount;
+
+        const queryUrls = `
+            SELECT urls.id, urls.short AS "shortUrl", urls.url, urls."visitCount"
+            FROM urls
+            WHERE urls."userId" = $1
+        `;
+        const valuesUrls = [id];
+        const urlsResult = await db.query(queryUrls, valuesUrls);
+        const shortenedUrls = urlsResult.rows;
+
+        const response = {
+            id: id,
+            name: userName,
+            visitCount: visitCount,
+            shortenedUrls
+        };
+
+        res.status(200).send(response);
+
+    } catch (error) {
+        console.log(error.message);
+		res.status(500).send("Ocorreu um erro ao pegar os dados.");
+    }
+}

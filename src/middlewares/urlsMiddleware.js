@@ -1,5 +1,3 @@
-import { query } from 'express';
-import { validate } from 'uuid';
 import db from '../db.js';
 import urlSchema from '../schemas/urlSchema.js';
 

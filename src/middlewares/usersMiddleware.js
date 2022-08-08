@@ -115,3 +115,45 @@ export async function checkUserPassword(req, res, next){
     }
     next();
 }
+
+export async function checkUserId(req, res, next){
+    const {id} = req.params;
+
+    try {
+        const queryId = `
+            SELECT * FROM users
+            WHERE id = $1
+        `;
+        const valuesId = [id];
+        const checkExistsId = await db.query(queryId, valuesId);
+
+        if(checkExistsId.rowCount === 0){
+            res.status(404).send("Usuário não cadastrado no sistema")
+        }
+    } catch (error) {
+        res.status(500).send("Erro inesperado na validação do id.");
+        return;
+    }
+    next();
+}
+
+export async function checkUserUrl(req, res, next){
+    const {id} = req.params;
+
+    try {
+        const queryId = `
+            SELECT * FROM urls
+            WHERE "userId" = $1
+        `;
+        const valuesId = [id];
+        const checkExistsId = await db.query(queryId, valuesId);
+
+        if(checkExistsId.rowCount === 0){
+            res.status(404).send("Usuário sem urls encurtadas")
+        }
+    } catch (error) {
+        res.status(500).send("Erro inesperado na validação do id.");
+        return;
+    }
+    next();
+}
