@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { registerNewUser, login, getUserData } from '../controllers/usersController.js';
+import { registerNewUser, login, getUserData, getRanking } from '../controllers/usersController.js';
 import { 
         checkSignUpSchema,
         checkConfirmPassword,
@@ -19,6 +19,8 @@ const usersRouter = Router();
 
 usersRouter.post("/signup", checkSignUpSchema, checkConfirmPassword, checkUniqueEmail, registerNewUser);
 usersRouter.post("/signin", checkSignInSchema, checkUserEmail, checkUserPassword, login);
-usersRouter.get("/users/:id", checkToken,checkTokenIsFromUser,checkUserId, checkUserUrl, getUserData)
+usersRouter.get("/users/:id", checkToken,checkTokenIsFromUser,checkUserId, checkUserUrl, getUserData);
+usersRouter.get("/ranking", getRanking);
+
 
 export default usersRouter;

@@ -94,3 +94,24 @@ export async function getUserData(req, res){
 		res.status(500).send("Ocorreu um erro ao pegar os dados.");
     }
 }
+
+
+export async function getRanking(req, res){
+    try {
+        const query = `
+            SELECT users.id, users.name, COUNT(urls."userId") AS "linksCount", SUM(urls."visitCount") AS "visitCount"
+            FROM users
+            JOIN urls ON urls."userId" = users.id
+            GROUP BY users.id
+            ORDER BY "visitCount" DESC
+            LIMIT 10
+        `;
+        const result = await db.query(query);
+
+        res.status(200).send(result.rows);
+
+    } catch (error) {
+        console.log(error.message);
+		res.status(500).send("Ocorreu um erro ao pegar os dados.");
+    }
+}
