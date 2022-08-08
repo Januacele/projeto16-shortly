@@ -70,7 +70,7 @@ export async function checkShortUrlExist(req, res, next){
     const {shortUrl} = req.params;
     try {
         const queryShortExist = `
-            SELECT short FROM urls
+            SELECT * FROM urls
             WHERE id= $1
         `;
         const valueId = [shortUrl];
