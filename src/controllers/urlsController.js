@@ -73,10 +73,10 @@ export async function redirect(req, res){
         WHERE short= $1
     `;
     const valuesUrl = [shortUrl];
-    const shortUrl = await db.query(queryUrl, valuesUrl);
-    const idUrl = shortUrl.rows[0].id;
-    const originalUrl = shortUrl.rows[0].url;
-    const newNumberVisits = shortUrl.rows[0].visitCount + 1;
+    const urlQuery = await db.query(queryUrl, valuesUrl);
+    const idUrl = urlQuery.rows[0].id;
+    const originalUrl = urlQuery.rows[0].url;
+    const newNumberVisits = urlQuery.rows[0].visitCount + 1;
 
     const queryVisits = `
     UPDATE urls
