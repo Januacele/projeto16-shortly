@@ -18,6 +18,6 @@ const usersRouter = Router();
 
 usersRouter.post("/signup", checkSignUpSchema, checkConfirmPassword, checkUniqueEmail, registerNewUser);
 usersRouter.post("/signin", checkSignInSchema, checkUserEmail, checkUserPassword, login);
-usersRouter.get("/users/me", checkToken, checkUserId, checkUserUrl, getUserData)
+usersRouter.get("/users/:id", checkToken, checkUserId, checkUserUrl, getUserData)
 
 export default usersRouter;
